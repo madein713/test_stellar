@@ -1,4 +1,3 @@
-import typing
 import uuid
 
 import fastapi as fa
@@ -8,21 +7,11 @@ from sqlalchemy.orm.session import Session
 from apps import models
 
 
-class Repository(typing.Protocol):
-    async def get(self, file_id: str):
-        pass
-
-    async def create(
-        self, *, file: fa.UploadFile
-    ) -> models.File:
-        pass
-
-
-class FileRepository(Repository):
+class FileRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    async def get(self, file_id: str):
+    async def get(self, file_id: str) -> models.File:
         resp = await self.session.execute(
             sa.select(models.File).filter_by(id=file_id)
         )
