@@ -1,8 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy.orm.session import Session
 
-from apps import Base, engine
-from apps import session_factory
+from apps import Base, engine, session_factory
 
 
 async def create_db():

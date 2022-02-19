@@ -1,6 +1,6 @@
 import json
-import fastapi as fa
 
+import fastapi as fa
 from sqlalchemy.orm.session import Session
 
 from apps import database

@@ -1,6 +1,8 @@
-import sqlalchemy as sa
-from apps import Base
 from datetime import datetime
+
+import sqlalchemy as sa
+
+from apps import Base
 
 
 class BaseModel(Base):
