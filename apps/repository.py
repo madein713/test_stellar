@@ -38,7 +38,7 @@ class FileRepository(Repository):
         if not file.filename:
             file.filename = str(uuid.uuid4())
 
-        url = f'https://localhost:8000/files/{file_id}'
+        url = f'https://localhost:8000/files/download/{file_id}/'
         file_ = models.File(
             file_b=file.file.read(),
             mime_type=file.content_type,

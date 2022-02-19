@@ -1,3 +1,4 @@
+import json
 import fastapi as fa
 
 from sqlalchemy.orm.session import Session
@@ -24,14 +25,18 @@ async def get_file(
     if not file:
         raise fa.HTTPException(status_code=404, detail='File not found')
 
-    return {
-        'file_id': file.id,
-        'url': file.url,
-        'mime_type': file.mime_type,
-        'size': file.size,
-        'upload_date': file.created_at.isoformat(),
-        'filename': file.name
-    }
+    return fa.Response(
+        json.dumps(
+            {
+                'file_id': file.id,
+                'url': file.url,
+                'mime_type': file.mime_type,
+                'size': file.size,
+                'upload_date': file.created_at.isoformat(),
+                'filename': file.name
+            }
+        )
+    )
 
 
 @app.post("/files/upload")
@@ -43,14 +48,14 @@ async def upload(
 
     file = await file_repo.create(file=file)
 
-    return {
-        'file_id': file.id,
-        'url': file.url,
-        'mime_type': file.mime_type,
-        'size': file.size,
-        'upload_date': file.created_at.isoformat(),
-        'filename': file.name
-    }
+    return fa.Response(
+        json.dumps(
+            {
+                'file_id': file.id,
+                'url': file.url
+            }
+        )
+    )
 
 
 @app.get('/files/download/{file_id}')
@@ -64,4 +69,7 @@ async def download_file(
     if not file:
         raise fa.HTTPException(status_code=404, detail='File not found')
 
-    return fa.Response(file.file_b, media_type=file.mime_type)
+    return fa.Response(
+        file.file_b,
+        media_type=file.mime_type
+    )
